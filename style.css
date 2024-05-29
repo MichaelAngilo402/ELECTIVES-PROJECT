@@ -1,0 +1,122 @@
+body {
+    font-family: 'Open Sans', Arial, sans-serif; /* Fallback fonts */
+    margin: 0;
+    padding: 20px;
+    background-color: #39304a;
+  }
+  
+  .container {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    left: calc(60vw / 2);
+    right: calc(60vw / 2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 5px 15px 5px rgba(0, 0, 0, 0.3);
+    background-color: #f7f9f9;
+    border-radius: 5px;
+  }
+  
+  .main-header {
+    display: flex;
+    justify-content: space-between; /* This spaces out the child containers */
+    align-items: center; /* Aligns items vertically in the center */
+    margin-bottom: 20px;
+  }
+  
+  .header-left,
+  .header-right {
+    display: flex;
+    align-items: center; /* Centers items vertically */
+  }
+  
+  .header-left img {
+    max-width: 60px; /* Adjust based on your logo size */
+    height: auto; /* Maintains aspect ratio */
+  }
+
+  .main-title {
+    text-align: center;
+  }
+
+  .camera-preview {
+    flex: 0 0 25%;
+    padding: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: rgb(255, 250, 243);
+    text-align: center;
+  }
+  
+  .entry-form {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 5px;
+    background-color: rgb(255, 250, 243);
+    width: 100%;
+  }
+
+  .entry-form input {
+    width: 95%;
+    height: 20px;
+    padding: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    border-radius: 2px;
+  }
+
+  .main-entry-form {
+    align-items: center;
+  }
+
+  .student-identification {
+    display: flex;
+    gap: 40px;
+  }
+
+  .datetime-studentyr {
+    display: flex;
+    gap: 40px;
+  }
+
+  .main-entry-form label {
+    font-size: small;
+  }
+
+
+  .dropdown-select {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 10px;
+  }
+
+  .button-submit {
+    background-color: #202030;
+    color: white;
+    font-size: large;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 5px;
+  }
+  
+  .camera-placeholder {
+    width: 100%;
+    height: 200px;
+    background: #eee;
+    border: 2px dashed #ddd;
+  }
+  
+  .entry-form label {
+    margin-bottom: 5px;
+    display: block;
+  }
+  
+
+  
