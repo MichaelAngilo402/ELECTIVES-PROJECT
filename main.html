@@ -3,24 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
   <title>TUP Student Entry Logging System</title>
-
   <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
+  <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="container">
     <p id="connection-status"></p>
-
     <div class="camera-preview">
       <div class="camera-placeholder"></div>
     </div>
-    
-    
     <div class="entry-form">
-
       <div class="main-header">
         <div class="header-left">
           <img class="logo-image" src="image/TUPLOGO.svg" alt="TUP Logo">
@@ -29,11 +24,9 @@
           <h2 class="main-title">TUP - Student Entry Logging System</h2>
         </div>
       </div>
-
       <form class="main-entry-form" id="entry-form" action="process.php" method="post">
         <label for="entry-id">Entry ID:</label>
         <input type="text" id="entry-id" name="entry-id" required>
-        
         <div class="student-identification">
           <div>
             <label for="student-id">Student ID:</label>
@@ -41,10 +34,9 @@
           </div>
           <div>
             <label>Student Name</label>
-            <label style="font-weight: bold; font-size: 20px;">Please Scan the QR</label>
+            <label style="font-weight: bold; font-size: 20px;">Please Scan the CODE</label>
           </div>
         </div>
-
         <div class="datetime-studentyr">
           <div>
             <label for="date-time">Date and Time:</label>
@@ -55,7 +47,6 @@
             <label style="font-size: 20px; font-weight: bold;" for="id-validation">STATUS:</label>
           </div>
         </div>
-
         <label for="entry-type">Entry Type:</label>
         <div class="dropdown-select">
           <select id="entry-type" name="entry-type" required>
@@ -79,27 +70,77 @@
             <option value="cos">COS</option>
           </select>
         </div>
-
         <label for="department-name">Department Name:</label>
         <input type="text" id="department-name" name="department-name" required>
-        <button class="button-submit" type="submit" id="submit-btn">Submit</button>
+        <button class="button-submit" type="submit" id="submit-btn" name="submit">Submit</button>
       </form>
     </div>
   </div>
-
   <script>
-  const submitBtn = document.getElementById('submit-btn');
-  const form = document.getElementById('entry-form');
+    const form = document.getElementById('entry-form');
+    const locationSelect = document.getElementById('location');
+    const studentIdInput = document.getElementById('student-id');
 
-  submitBtn.addEventListener('click', function(event) {
-    event.preventDefault(); // Prevent default form submission
+    const locationPrefixMap = {
+      manila: 'TUPM',
+      cavite: 'TUPC',
+      taguig: 'TUPT',
+      visayas: 'TUPV'
+    };
 
-    // Simulate successful form submission using an alert (replace with actual logic)
-    alert("Data saved successfully!");
+    locationSelect.addEventListener('change', function() {
+      const prefix = locationPrefixMap[locationSelect.value];
+      const currentStudentId = studentIdInput.value;
 
-    // Clear form fields after successful submission
-    form.reset();
-  });
+      if (!currentStudentId.startsWith(prefix)) {
+        studentIdInput.value = prefix;
+      }
+    });
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+
+      fetch('process.php', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.text())
+      .then(data => {
+        if (data === "Connected successfully") {
+          console.log("Database connection successful.");
+        } else if (data.startsWith("New record created successfully")) {
+          const modalContent = `
+            Successfully logged in.<br><br>
+            Student ID: ${formData.get('student-id')}<br>
+            Location: ${formData.get('location')}<br>
+            College Name: ${formData.get('college-name')}<br>
+            Department Name: ${formData.get('department-name')}<br>
+            Entry Type: ${formData.get('entry-type')}
+          `;
+          showModal(modalContent);
+        } else {
+          console.error("Error:", data);
+        }
+      })
+      .catch(error => console.error('Error:', error));
+    });
+
+    function showModal(content) {
+      const modal = document.createElement('div');
+      modal.innerHTML = `
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <p>${content}</p>
+        </div>
+      `;
+      document.body.appendChild(modal);
+      modal.querySelector('.close').onclick = function() {
+        modal.remove();
+      };
+    }
+
   </script>
 </body>
 </html>
