@@ -34,7 +34,7 @@
           </div>
           <div>
             <label>Student Name</label>
-            <label style="font-weight: bold; font-size: 20px;">Please Scan the QR</label>
+            <label style="font-weight: bold; font-size: 20px;">Please Scan the CODE</label>
           </div>
         </div>
         <div class="datetime-studentyr">
@@ -76,7 +76,17 @@
       </form>
     </div>
   </div>
+
+  <!-- Modal -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <p id="modal-message"></p>
+    </div>
+  </div>
+
   <script>
+    
     const form = document.getElementById('entry-form');
     const locationSelect = document.getElementById('location');
     const studentIdInput = document.getElementById('student-id');
@@ -97,8 +107,13 @@
       }
     });
 
+    
+
     form.addEventListener('submit', function(e) {
       e.preventDefault();
+
+
+      
 
       const formData = new FormData(form);
 
@@ -111,7 +126,7 @@
         if (data === "Connected successfully") {
           console.log("Database connection successful.");
         } else if (data.startsWith("New record created successfully")) {
-          const modalContent = `
+          const modalMessage = `
             Successfully logged in.<br><br>
             Student ID: ${formData.get('student-id')}<br>
             Location: ${formData.get('location')}<br>
@@ -119,28 +134,67 @@
             Department Name: ${formData.get('department-name')}<br>
             Entry Type: ${formData.get('entry-type')}
           `;
-          showModal(modalContent);
+          showModal(modalMessage);
         } else {
           console.error("Error:", data);
         }
       })
       .catch(error => console.error('Error:', error));
+      clearFormFieldsExceptEntryId();
     });
 
-    function showModal(content) {
-      const modal = document.createElement('div');
-      modal.innerHTML = `
-        <div class="modal-content">
-          <span class="close">&times;</span>
-          <p>${content}</p>
-        </div>
-      `;
-      document.body.appendChild(modal);
-      modal.querySelector('.close').onclick = function() {
-        modal.remove();
-      };
+    function clearFormFieldsExceptEntryId() {
+    const inputs = form.querySelectorAll('input[type="text"], select');
+    inputs.forEach(input => {
+        if (input.name!== 'entry-id') {
+            input.value = ''; // Clear the input field
+        }
+    });
+}
+
+    document.addEventListener('DOMContentLoaded', function() {
+    // Generate a random entry ID when the page loads
+    const entryIdInput = document.getElementById('entry-id');
+    entryIdInput.value = generateRandomString();
+
+    // Function to generate a random alphanumeric string
+    function generateRandomString() {
+        let result = '';
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        const charactersLength = characters.length;
+        for (let i = 0; i < 16; i++) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
     }
 
+    // Update the entry ID when the form is submitted
+    const form = document.getElementById('entry-form');
+    form.addEventListener('submit', function(e) {
+        e.preventDefault(); // Prevent the default form submission behavior
+        entryIdInput.value = generateRandomString(); // Regenerate the entry ID
+        // Continue with your existing form submission logic...
+    });
+});
+
+    function showModal(content) {
+      const modal = document.getElementById('modal');
+      const modalMessage = document.getElementById('modal-message');
+      const closeBtn = document.querySelector('.modal .close');
+
+      modalMessage.innerHTML = content;
+      modal.style.display = 'block';
+
+      closeBtn.onclick = function() {
+        modal.style.display = 'none';
+      };
+
+      window.onclick = function(event) {
+        if (event.target === modal) {
+          modal.style.display = 'none';
+        }
+      };
+    }
   </script>
 </body>
 </html>
