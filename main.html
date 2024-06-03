@@ -6,10 +6,10 @@
   <title>TUP Student Entry Logging System</title>
   <link rel="stylesheet" href="style.css">
 
-  <!--Bind the javascript from the script.js-->
+  <!-- Bind the javascript from the script.js -->
   <script src="script.js" defer></script>
 
-  <!--Import function of the QR Code scanner-->
+  <!-- Import function of the QR Code scanner -->
   <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/8.2.3/adapter.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.5/vue.cjs.min.js"></script>
@@ -19,20 +19,18 @@
 </head>
 
 <body>
-
   <div class="container">
-
-  <div class="camera-preview">
+    <div class="camera-preview">
       <label style="font-weight: bold; margin-bottom: 10px;">SCAN QR CODE</label>
       <video id="preview" width="100%"></video>
       <button id="clearButton" style="background-color: #202030; color: white; font-size: small; padding: 5px; padding-left: 60px; padding-right: 60px; border-radius: 3px;">Clear</button>
       <!-- Audio Element for Beep Sound -->
       <audio id="beepSound" src="audio\scan.mp3"></audio>
-  </div>
+    </div>
   
     <div class="entry-form-container">
       <div class="entry-form">
-        <!--Main Header of the Forms-->
+        <!-- Main Header of the Forms -->
         <div class="main-header">
           <div class="header-left">
             <img class="logo-image" src="image/TUPLOGO.svg" alt="TUP Logo">
@@ -62,7 +60,7 @@
             </div>
             <div>
               <label for="student-year">ID Validation:</label>
-              <label style="font-size: 20px; font-weight: bold;" for="id-validation">STATUS:</label>
+              <label style="font-size: 20px; font-weight: bold; color: black;" id="id-validation">STATUS:</label>
             </div>
           </div>
           <label for="entry-type">Entry Type:</label>
@@ -94,9 +92,7 @@
         </form>
       </div>
     </div>
-
   </div>
-  
   
   <!-- Modal -->
   <div id="modal" class="modal">
@@ -107,6 +103,8 @@
   </div>
 
   <label class="bottom-label">Campo, Del Castillo, Gorospe, Monteiro, Mission, Pancho</label>
-
 </body>
+<script>
+  
+</script>
 </html>
