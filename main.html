@@ -5,78 +5,99 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TUP Student Entry Logging System</title>
   <link rel="stylesheet" href="style.css">
+
+  <!--Bind the javascript from the script.js-->
   <script src="script.js" defer></script>
+
+  <!--Import function of the QR Code scanner-->
   <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/8.2.3/adapter.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.5/vue.cjs.min.js"></script>
+  <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/quagga@0.12.1/dist/quagga.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
-<body>
-  <div class="container">
-    <p id="connection-status"></p>
-    <div class="camera-preview">
-      <div class="camera-placeholder"></div>
-    </div>
-    <div class="entry-form">
-      <div class="main-header">
-        <div class="header-left">
-          <img class="logo-image" src="image/TUPLOGO.svg" alt="TUP Logo">
-        </div>
-        <div class="header-right">
-          <h2 class="main-title">TUP - Student Entry Logging System</h2>
-        </div>
-      </div>
-      <form class="main-entry-form" id="entry-form" action="process.php" method="post">
-        <label for="entry-id">Entry ID:</label>
-        <input type="text" id="entry-id" name="entry-id" required>
-        <div class="student-identification">
-          <div>
-            <label for="student-id">Student ID:</label>
-            <input type="text" id="student-id" name="student-id" required>
-          </div>
-          <div>
-            <label>Student Name</label>
-            <label style="font-weight: bold; font-size: 20px;">Please Scan the CODE</label>
-          </div>
-        </div>
-        <div class="datetime-studentyr">
-          <div>
-            <label for="date-time">Date and Time:</label>
-            <label style="font-size: 20px; font-weight: bold;" id="liveDateTimeLabel">Loading...</label>
-          </div>
-          <div>
-            <label for="student-year">ID Validation:</label>
-            <label style="font-size: 20px; font-weight: bold;" for="id-validation">STATUS:</label>
-          </div>
-        </div>
-        <label for="entry-type">Entry Type:</label>
-        <div class="dropdown-select">
-          <select id="entry-type" name="entry-type" required>
-            <option value="in">In</option>
-            <option value="out">Out</option>
-          </select>
-          <label for="location">Location:</label>
-          <select id="location" name="location" required>
-            <option value="manila">Manila</option>
-            <option value="taguig">Taguig</option>
-            <option value="visayas">Visayas</option>
-            <option value="cavite">Cavite</option>
-          </select>
-          <label for="college-name">College Name:</label>
-          <select id="college-name" name="college-name" required>
-            <option value="cit">CIT</option>
-            <option value="cie">CIE</option>
-            <option value="coe">COE</option>
-            <option value="cla">CLA</option>
-            <option value="cafa">CAFA</option>
-            <option value="cos">COS</option>
-          </select>
-        </div>
-        <label for="department-name">Department Name:</label>
-        <input type="text" id="department-name" name="department-name" required>
-        <button class="button-submit" type="submit" id="submit-btn" name="submit">Submit</button>
-      </form>
-    </div>
-  </div>
 
+<body>
+
+  <div class="container">
+
+  <div class="camera-preview">
+      <label style="font-weight: bold; margin-bottom: 10px;">SCAN QR CODE</label>
+      <video id="preview" width="100%"></video>
+      <button id="clearButton" style="background-color: #202030; color: white; font-size: small; padding: 5px; padding-left: 60px; padding-right: 60px; border-radius: 3px;">Clear</button>
+      <!-- Audio Element for Beep Sound -->
+      <audio id="beepSound" src="audio\scan.mp3"></audio>
+  </div>
+  
+    <div class="entry-form-container">
+      <div class="entry-form">
+        <!--Main Header of the Forms-->
+        <div class="main-header">
+          <div class="header-left">
+            <img class="logo-image" src="image/TUPLOGO.svg" alt="TUP Logo">
+          </div>
+          <div class="header-right">
+            <h2 class="main-title">TUP - Student Entry Logging System</h2>
+          </div>
+        </div>
+
+        <form class="main-entry-form" id="entry-form" action="process.php" method="post">
+          <label for="entry-id">Entry ID:</label>
+          <input type="text" id="entry-id" name="entry-id" required>
+          <div class="student-identification">
+            <div>
+              <label for="student-id">Student ID:</label>
+              <input type="text" id="student-id" name="student-id" required>
+            </div>
+            <div>
+              <label>Student Name</label>
+              <label style="font-weight: bold; font-size: 20px;">Please Scan the CODE</label>
+            </div>
+          </div>
+          <div class="datetime-studentyr">
+            <div>
+              <label for="date-time">Date and Time:</label>
+              <label style="font-size: 20px; font-weight: bold;" id="liveDateTimeLabel">Loading...</label>
+            </div>
+            <div>
+              <label for="student-year">ID Validation:</label>
+              <label style="font-size: 20px; font-weight: bold;" for="id-validation">STATUS:</label>
+            </div>
+          </div>
+          <label for="entry-type">Entry Type:</label>
+          <div class="dropdown-select">
+            <select id="entry-type" name="entry-type" required>
+              <option value="in">In</option>
+              <option value="out">Out</option>
+            </select>
+            <label for="location">Location:</label>
+            <select id="location" name="location" required>
+              <option value="manila">Manila</option>
+              <option value="taguig">Taguig</option>
+              <option value="visayas">Visayas</option>
+              <option value="cavite">Cavite</option>
+            </select>
+            <label for="college-name">College Name:</label>
+            <select id="college-name" name="college-name" required>
+              <option value="cit">CIT</option>
+              <option value="cie">CIE</option>
+              <option value="coe">COE</option>
+              <option value="cla">CLA</option>
+              <option value="cafa">CAFA</option>
+              <option value="cos">COS</option>
+            </select>
+          </div>
+          <label for="department-name">Department Name:</label>
+          <input type="text" id="department-name" name="department-name" required>
+          <button class="button-submit" type="submit" id="submit-btn" name="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+  
+  
   <!-- Modal -->
   <div id="modal" class="modal">
     <div class="modal-content">
@@ -85,116 +106,7 @@
     </div>
   </div>
 
-  <script>
-    
-    const form = document.getElementById('entry-form');
-    const locationSelect = document.getElementById('location');
-    const studentIdInput = document.getElementById('student-id');
+  <label class="bottom-label">Campo, Del Castillo, Gorospe, Monteiro, Mission, Pancho</label>
 
-    const locationPrefixMap = {
-      manila: 'TUPM',
-      cavite: 'TUPC',
-      taguig: 'TUPT',
-      visayas: 'TUPV'
-    };
-
-    locationSelect.addEventListener('change', function() {
-      const prefix = locationPrefixMap[locationSelect.value];
-      const currentStudentId = studentIdInput.value;
-
-      if (!currentStudentId.startsWith(prefix)) {
-        studentIdInput.value = prefix;
-      }
-    });
-
-    
-
-    form.addEventListener('submit', function(e) {
-      e.preventDefault();
-
-
-      
-
-      const formData = new FormData(form);
-
-      fetch('process.php', {
-        method: 'POST',
-        body: formData
-      })
-      .then(response => response.text())
-      .then(data => {
-        if (data === "Connected successfully") {
-          console.log("Database connection successful.");
-        } else if (data.startsWith("New record created successfully")) {
-          const modalMessage = `
-            Successfully logged in.<br><br>
-            Student ID: ${formData.get('student-id')}<br>
-            Location: ${formData.get('location')}<br>
-            College Name: ${formData.get('college-name')}<br>
-            Department Name: ${formData.get('department-name')}<br>
-            Entry Type: ${formData.get('entry-type')}
-          `;
-          showModal(modalMessage);
-        } else {
-          console.error("Error:", data);
-        }
-      })
-      .catch(error => console.error('Error:', error));
-      clearFormFieldsExceptEntryId();
-    });
-
-    function clearFormFieldsExceptEntryId() {
-    const inputs = form.querySelectorAll('input[type="text"], select');
-    inputs.forEach(input => {
-        if (input.name!== 'entry-id') {
-            input.value = ''; // Clear the input field
-        }
-    });
-}
-
-    document.addEventListener('DOMContentLoaded', function() {
-    // Generate a random entry ID when the page loads
-    const entryIdInput = document.getElementById('entry-id');
-    entryIdInput.value = generateRandomString();
-
-    // Function to generate a random alphanumeric string
-    function generateRandomString() {
-        let result = '';
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        const charactersLength = characters.length;
-        for (let i = 0; i < 16; i++) {
-            result += characters.charAt(Math.floor(Math.random() * charactersLength));
-        }
-        return result;
-    }
-
-    // Update the entry ID when the form is submitted
-    const form = document.getElementById('entry-form');
-    form.addEventListener('submit', function(e) {
-        e.preventDefault(); // Prevent the default form submission behavior
-        entryIdInput.value = generateRandomString(); // Regenerate the entry ID
-        // Continue with your existing form submission logic...
-    });
-});
-
-    function showModal(content) {
-      const modal = document.getElementById('modal');
-      const modalMessage = document.getElementById('modal-message');
-      const closeBtn = document.querySelector('.modal .close');
-
-      modalMessage.innerHTML = content;
-      modal.style.display = 'block';
-
-      closeBtn.onclick = function() {
-        modal.style.display = 'none';
-      };
-
-      window.onclick = function(event) {
-        if (event.target === modal) {
-          modal.style.display = 'none';
-        }
-      };
-    }
-  </script>
 </body>
 </html>

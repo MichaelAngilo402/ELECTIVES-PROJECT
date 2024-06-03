@@ -5,8 +5,9 @@ body {
     background-color: #39304a;
   }
   
+
   .container {
-    position: fixed;
+    position: absolute;
     top: 50%;
     transform: translateY(-50%);
     left: calc(60vw / 2);
@@ -18,23 +19,31 @@ body {
     background-color: #f7f9f9;
     border-radius: 5px;
   }
+
+  .entry-form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
   
   .main-header {
     display: flex;
-    justify-content: space-between; /* This spaces out the child containers */
-    align-items: center; /* Aligns items vertically in the center */
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 20px;
   }
   
   .header-left,
   .header-right {
     display: flex;
-    align-items: center; /* Centers items vertically */
+    align-items: center;
   }
   
   .header-left img {
-    max-width: 60px; /* Adjust based on your logo size */
-    height: auto; /* Maintains aspect ratio */
+    max-width: 60px;
+    height: auto;
   }
 
   .main-title {
@@ -101,9 +110,10 @@ body {
     color: white;
     font-size: large;
     padding: 10px;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 45px;
+    padding-right: 45px;
     border-radius: 5px;
+    margin-left: 33%;
   }
   
   .camera-placeholder {
@@ -118,5 +128,15 @@ body {
     display: block;
   }
   
+  .bottom-label {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 12px;
+    text-align: center;
+    width: 100%;
+  }
 
   
