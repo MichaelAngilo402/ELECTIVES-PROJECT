@@ -1,5 +1,7 @@
 # TUP Student Entry Logging System - Electives Project
 
+![TUP Student Entry Cover Image](https://github.com/MichaelAngilo402/ELECTIVES-PROJECT/blob/main/coverImage.png)
+
 ## Project Description
 This project was developed as a group requirement for the Electives subject, instructed by Minabelle Villafuerte, at the Technological University of the Philippines (TUP). It stems from the topic of Database Management Systems and aims to address the inefficiencies of the manual student attendance record system. The project provides a solution that automates the logging of students' entry into the school premises, allowing professors and guardians to track students' attendance more efficiently.
 
