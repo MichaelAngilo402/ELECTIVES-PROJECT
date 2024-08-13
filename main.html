@@ -9,12 +9,17 @@
   <!-- Bind the javascript from the script.js -->
   <script src="script.js" defer></script>
 
+  
   <!-- Import function of the QR Code scanner -->
+  <!-- <script type="text/javascript" src="instascan.min.js"></script>
+  <script src="adapter-9.0.0\release\adapter.js"></script> -->
+  
   <script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/8.2.3/adapter.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.4.5/vue.cjs.min.js"></script>
   <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/quagga@0.12.1/dist/quagga.min.js"></script>
+
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 </head>
 
@@ -50,7 +55,7 @@
             </div>
             <div>
               <label>Student Name</label>
-              <label style="font-weight: bold; font-size: 20px;">Please Scan the CODE</label>
+              <label id="nameDisp" style="font-weight: bold; font-size: 20px;">Please scan the QR code</label>
             </div>
           </div>
           <div class="datetime-studentyr">

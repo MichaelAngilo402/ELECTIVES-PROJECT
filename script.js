@@ -5,8 +5,26 @@ const validStudentIds = [
   "TUPM-21-1575",
   "TUPM-21-1613",
   "TUPM-21-3017",
-  "TUPM-21-1612"
+  "TUPM-21-1612",
+  "TUPM-21-3075"
 ];
+
+// FUNCTION FOR VALIDATING STUDENT ID
+function validateStudentId(studentId) {
+  const validationLabel = document.getElementById('id-validation');
+ 
+  if (validStudentIds.includes(studentId)) {
+    validationLabel.textContent = 'VALIDATED ID';
+    validationLabel.style.color = 'green';
+  } 
+  
+  
+  else {
+    validationLabel.textContent = 'ID validation status: invalid ID';
+    validationLabel.style.color = 'red';
+  }
+}
+
 
 // FUNCTION FOR THE CAMERAS
 let qrScanner = new Instascan.Scanner({
@@ -42,6 +60,7 @@ function initializeBarcodeScanner() {
   Quagga.onDetected(function (result) {
     const code = result.codeResult.code;
     document.getElementById('student-id').value = code;
+
     document.getElementById('beepSound').play();
     validateStudentId(code);
   });
@@ -62,25 +81,40 @@ qrScanner.addListener('scan', function (content) {
   document.getElementById('student-id').value = content;
   document.getElementById('beepSound').play();
   validateStudentId(content);
+
+  
+
+  if (content === "TUPM-21-1612") {
+    // If valid, update the label#nameDisp to show a success message
+    document.getElementById('nameDisp').textContent = 'Michael Angilo Pancho';
+   
+    
+  } else if (content === "TUPM-21-1608") {
+    document.getElementById('nameDisp').textContent = 'Joey Boy Mission';
+  } else if (content === "TUPM-21-5433") {
+    document.getElementById('nameDisp').textContent = 'Lemuel Del Castillo';
+  } else if (content === "TUPM-21-1575") {
+    document.getElementById('nameDisp').textContent = 'Jeric Campo';
+  } else if (content === "TUPM-21-1613") {
+    document.getElementById('nameDisp').textContent = 'Francez Kim Gorospe';
+  } else if (content === "TUPM-21-3017") {
+    document.getElementById('nameDisp').textContent = 'James Gangat';
+  } else if (content === "TUPM-21-3075") {
+    document.getElementById('nameDisp').textContent = 'Ryan Monteiro';
+  } else {
+    document.getElementById('nameDisp').textContent = 'Unknown Student Name!';
+    document.getElementById('nameDisp').color = 'red';
+  }
+
 });
 
 document.getElementById('clearButton').addEventListener('click', function () {
   document.getElementById('student-id').value = '';
   document.getElementById('id-validation').textContent = 'STATUS:';
   document.getElementById('id-validation').style.color = 'black';
+  document.getElementById('nameDisp').textContent = 'Please scan the QR code';
 });
 
-// FUNCTION FOR VALIDATING STUDENT ID
-function validateStudentId(studentId) {
-  const validationLabel = document.getElementById('id-validation');
-  if (validStudentIds.includes(studentId)) {
-    validationLabel.textContent = 'VALIDATED ID';
-    validationLabel.style.color = 'green';
-  } else {
-    validationLabel.textContent = 'ID validation status: invalid ID';
-    validationLabel.style.color = 'red';
-  }
-}
 
 // FUNCTION FOR FORMS
 const form = document.getElementById('entry-form');
@@ -141,6 +175,9 @@ function clearFormFieldsExceptEntryId() {
   inputs.forEach(input => {
     if (input.name !== 'entry-id') {
       input.value = ''; // Clear the input field
+    } else if (input.name !== 'nameDisp') {
+      document.getElementById('nameDisp').textContent = ''; // Clear the input field
+      document.getElementById('id-validation').textContent = ''; // Clear the input field
     }
   });
 }
